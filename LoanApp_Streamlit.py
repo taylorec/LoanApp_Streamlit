@@ -7,6 +7,7 @@ Created on Mon Sep 20 21:52:41 2021
 
 import streamlit as st
 import joblib
+import numpy as np
 
 st.title('Loan Application Predictor')
 st.write("This app predicts whether or not the borrower will default on the loan if approved.")
@@ -16,7 +17,8 @@ loaded_logr = joblib.load('logmodel.joblib')
 credit_policy = st.selectbox('Credit Policy - meets the credit underwriting', options=['No', 'Yes'])
 int_rate = st.number_input('Interest Rate', min_value=0.05)
 installment = st.number_input('Monthly installments', min_value=10.00)
-log_annual_inc = st.number_input('The natural log of the self-reported annual income', min_value=5.00)
+annual_inc = st.number_input('Self-reported annual income', min_value=5.00)
+log_annual_inc = np.log(annual_inc)
 dti = st.number_input('Debt-to-income ratio', min_value=0.00)
 fico = st.number_input('FICO', min_value=500)
 daysCrLine = st.number_input('Number of days with a credit line', min_value=175)
@@ -58,12 +60,11 @@ elif credit_policy == 'Yes':
 
 new_prediction = loaded_logr.predict([[credit_policy, int_rate, installment, log_annual_inc, dti,
        fico, daysCrLine, revolBal, revolUtil,
-       inqLast6mo, delinq2yr, pub_rec, purpose_credit_card, purpose_debt_consolidation,
+       inqLast6mo, delinq2yr, pub_rec, purpose_all_other, purpose_credit_card, purpose_debt_consolidation,
        purpose_educational, purpose_home_improvement,
        purpose_major_purchase, purpose_small_business]])
 if new_prediction == 0:
     prediction = 'No, this model predicts the loan to be paid in full.'
-else: 
-    prediction = 'Yes, this model predicts the borroer to default.'
+else: prediction = 'Yes, this model predicts the borroer to default'
 st.write('Does the model predict this loan to default: {}'.format(prediction))
 
