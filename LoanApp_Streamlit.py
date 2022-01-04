@@ -63,6 +63,7 @@ new_prediction = loaded_logr.predict([[credit_policy, int_rate, installment, log
        purpose_major_purchase, purpose_small_business]])
 if new_prediction == 0:
     prediction = 'No, this model predicts the loan to be paid in full.'
-else: prediction = 'Yes, this model predicts the borroer to default'
+else: 
+    prediction = 'Yes, this model predicts the borroer to default.'
 st.write('Does the model predict this loan to default: {}'.format(prediction))
 
