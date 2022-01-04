@@ -11,7 +11,7 @@ import joblib
 st.title('Loan Application Predictor')
 st.write("This app predicts whether or not the borrower will default on the loan if approved.")
 
-loaded_logr = joblib.load('logmodle.joblib')
+loaded_logr = joblib.load('logmodel.joblib')
 
 credit_policy = st.selectbox('Credit Policy - meets the credit underwriting', options=['No', 'Yes'])
 int_rate = st.number_input('Interest Rate', min_value=0.05)
